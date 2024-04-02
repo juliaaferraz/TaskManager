@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
+    <link rel="stylesheet" href="home.html">
+    <link rel="stylesheet" href="./home.js">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    <a href="https://www.flaticon.com/br/icones-gratis/lixeira-de-reciclagem" title="lixeira"></a>
+    <title>Gerenciamento de tarefas </title>
+</head>
+<body>
+    <h1 class="title">Gerenciamento de Tarefas:</h1>
+
+    <div class="container">
+        <h1> Tarefas </h1>
+        <form id="task-form" class="task-form">
+            <input type="text" id="task-input" placeholder="Digite uma nova tarefa" class="task-input">
+            <button type="submit" class="add-btn"> ➕ </button>
+        </form>
+        <ul id="task-list" class="task-list"></ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('task-form');
+            const taskList = document.getElementById('task-list');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const taskInput = document.getElementById('task-input').value;
+                if (taskInput.trim() !== '') {
+                    createTask(taskInput);
+                    document.getElementById('task-input').value = '';
+                }
+            });
+
+            function createTask(taskContent) {
+                const taskItem = document.createElement('li');
+                taskItem.className = 'task';
+
+                const taskText = document.createElement('span');
+                taskText.textContent = taskContent;
+
+                const taskButtons = document.createElement('div');
+                taskButtons.className = 'task-buttons';
+
+                const editButton = document.createElement('button');
+                editButton.textContent = '✏️';
+                editButton.className = 'edit-btn';
+                editButton.addEventListener('click', function() {
+                    const newText = prompt('Editar tarefa:', taskText.textContent);
+                    if (newText !== null) {
+                        taskText.textContent = newText;
+                    }
+                });
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = '🗑️';
+                deleteButton.className = 'delete-btn';
+                deleteButton.addEventListener('click', function() {
+                    taskItem.remove();
+                });
+
+                const completeCheckbox = document.createElement('input');
+                completeCheckbox.type = 'checkbox';
+                completeCheckbox.addEventListener('change', function() {
+                    taskItem.classList.toggle('completed');
+                });
+
+                taskButtons.appendChild(editButton);
+                taskButtons.appendChild(deleteButton);
+                taskItem.appendChild(taskText);
+                taskItem.appendChild(taskButtons);
+                taskItem.appendChild(completeCheckbox);
+                taskList.appendChild(taskItem);
+                taskText.appendChild(taskText)
+            }
+        });
+    </script>
+</body>
+</html>
